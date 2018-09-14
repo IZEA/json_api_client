@@ -489,6 +489,7 @@ module JsonApiClient
 
       # look in included data
       if relationship_definitions.key?("data")
+        binding.pry
         data = last_result_set.included.data_for(method, relationship_definitions)
         data ||= last_result_set.data_for(method, relationship_definitions)
         data
