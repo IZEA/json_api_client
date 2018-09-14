@@ -41,7 +41,7 @@ module JsonApiClient
     # should return a resource record of some type for this linked document
     def record_for(link_def)
       type_data = data[link_def["type"]]
-      type_data&[link_def["id"]]
+      type_data && type_data[link_def["id"]]
     end
   end
 end
