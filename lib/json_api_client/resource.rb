@@ -489,8 +489,12 @@ module JsonApiClient
 
       # look in included data
       if relationship_definitions.key?("data")
-        return last_result_set.included.data_for(method, relationship_definitions)
+        data = last_result_set.included.data_for(method, relationship_definitions)
+        data ||= last_result_set.data_for(method, relationship_definitions)
+        data
       end
+
+
 
       if association = association_for(method)
         # look for a defined relationship url
