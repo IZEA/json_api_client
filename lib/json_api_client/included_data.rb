@@ -36,8 +36,6 @@ module JsonApiClient
       data.has_key?(name.to_s)
     end
 
-    private
-
     # should return a resource record of some type for this linked document
     def record_for(link_def)
       type_data = data[link_def["type"]]
