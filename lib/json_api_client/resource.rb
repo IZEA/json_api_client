@@ -480,6 +480,21 @@ module JsonApiClient
 
     protected
 
+    def relationship_data_for(method_name, definition)
+      # If data is defined, pull the record from the included data
+      return nil unless data = definition["data"]
+
+      if data.is_a?(Array)
+        # has_many link
+        data.map do |link_def|
+          last_result_set.included.record_for(link_def) || last_result_set.data_for(link_def)
+        end
+      else
+        # has_one link
+        last_result_set.included.record_for(data) || last_result_set.data_for(data)
+      end
+    end
+
     def method_missing(method, *args)
       association = association_for(method)
 
@@ -489,9 +504,7 @@ module JsonApiClient
 
       # look in included data
       if relationship_definitions.key?("data")
-        data = last_result_set.included.data_for(method, relationship_definitions)
-        data ||= last_result_set.data_for(method, relationship_definitions)
-        return data
+        return relationship_data_for(method_name, relationship_definitions)
       end
 
 
