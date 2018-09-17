@@ -487,11 +487,11 @@ module JsonApiClient
       if data.is_a?(Array)
         # has_many link
         data.map do |link_def|
-          last_result_set.included.record_for(link_def) || last_result_set.data_for(link_def)
+          last_result_set.included.record_for(link_def) || last_result_set.record_for(link_def)
         end
       else
         # has_one link
-        last_result_set.included.record_for(data) || last_result_set.data_for(data)
+        last_result_set.included.record_for(data) || last_result_set.record_for(data)
       end
     end
 
