@@ -504,7 +504,7 @@ module JsonApiClient
 
       # look in included data
       if relationship_definitions.key?("data")
-        return relationship_data_for(method_name, relationship_definitions)
+        return relationship_data_for(method, relationship_definitions)
       end
 
 
