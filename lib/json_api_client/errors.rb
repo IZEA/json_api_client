@@ -17,12 +17,12 @@ module JsonApiClient
 
       # Try to fetch json_api errors from response
       def track_json_api_errors(msg)
-        return msg unless env.try(:body).kind_of?(Hash) || env.body.key?('errors')
+        return msg unless env.try(:body).kind_of?(Hash)
 
-        errors_msg = env.body['errors'].map { |e| e['title'] }.compact.join('; ').presence
-        return msg unless errors_msg
+        # errors_msg = env.body['errors'].map { |e| e['title'] }.compact.join('; ').presence
+        # return msg unless errors_msg
 
-        msg.nil? ? errors_msg : "#{msg} (#{errors_msg})"
+        msg.nil? ? errors_msg : "#{msg}\nResponse body: #{env.body}"
         # Just to be sure that it is back compatible
       rescue StandardError
         msg
