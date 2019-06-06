@@ -22,7 +22,9 @@ module JsonApiClient
         # errors_msg = env.body['errors'].map { |e| e['title'] }.compact.join('; ').presence
         # return msg unless errors_msg
 
-        msg.nil? ? errors_msg : "#{msg}\nResponse body: #{env.body}"
+        # msg.nil? ? errors_msg : "#{msg}\n (#{errors_msg})"
+        "#{msg}\nResponse body: #{env.body}"
+
         # Just to be sure that it is back compatible
       rescue StandardError
         msg
