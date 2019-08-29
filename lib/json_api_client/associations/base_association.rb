@@ -9,11 +9,17 @@ module JsonApiClient
       end
 
       def association_class
-        @association_class ||= if options[:class_resolver]
-          options[:class_resolver].call
-        else
-          class_name = options.fetch(:class_name) { attr_name.to_s.classify }
-          Utils.compute_type(klass, class_name)
+        @association_class ||= begin
+          resolved_class = if options[:class_resolver]
+            options[:class_resolver].call(nil)
+          end
+
+          if resolved_class
+            resolved_class
+          else
+            class_name = options.fetch(:class_name) { attr_name.to_s.classify }
+            Utils.compute_type(klass, class_name)
+          end
         end
       end
 
@@ -26,8 +32,12 @@ module JsonApiClient
       end
 
       def resolve_class(record)
-        if options[:class_resolver]
+        resolved_class = if options[:class_resolver]
           options[:class_resolver].call(record)
+        end
+
+        if resolved_class
+          resolved_class
         else
           Utils.compute_type(klass, record["type"].classify)
         end
